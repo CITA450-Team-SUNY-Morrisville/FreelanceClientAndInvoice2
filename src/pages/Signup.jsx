@@ -1,4 +1,3 @@
-// src/signup.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
@@ -28,6 +27,12 @@ function Signup() {
     setMessage('');
     setError('');
 
+    if (!formData.username || !formData.email || !formData.password) {
+      setError('Please fill out all fields');
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post('/api/signup', formData);
       setMessage(response.data.message);
@@ -40,77 +45,51 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
+    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-semibold text-center mb-6" style={{ color: '#6FA743' }}>
           Create an Account
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Username</label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-600"
               placeholder="Enter your username"
               required
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-600"
               placeholder="Enter your email"
               required
             />
           </div>
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-gray-600 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-600"
               placeholder="Create a password"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-300 font-semibold flex items-center justify-center"
+            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300 font-semibold flex items-center justify-center"
             disabled={loading}
           >
-            {loading ? (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                ></path>
-              </svg>
-            ) : (
-              'Sign Up'
-            )}
+            {loading ? 'Loading...' : 'Sign Up'}
           </button>
         </form>
 
@@ -128,11 +107,8 @@ function Signup() {
           </div>
         )}
 
-        <p className="mt-6 text-center text-sm text-gray-500">
-          Already have an account?{' '}
-          <Link to="/login" className="text-indigo-600 hover:text-indigo-500">
-            Log in
-          </Link>
+        <p className="mt-6 text-center text-sm">
+          Already have an account? <Link to="/login" className="text-green-400 hover:text-green-500">Log in</Link>
         </p>
       </div>
     </div>
